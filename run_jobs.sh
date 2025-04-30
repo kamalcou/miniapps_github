@@ -43,7 +43,7 @@ fi
 
 #Success
 
-mkdir -p result result/input result/output
+mkdir -p result result/input/ result/output/
 
 
 ##submit with large queue and 120gb memory
