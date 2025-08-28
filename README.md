@@ -1,50 +1,50 @@
 
 
-# miniapps_github
+## miniapps_github
 This guide provides instructions for running the miniapps. You must first ensure that your system is correctly configured.
 
-Prerequisites
+### Prerequisites
 Before submitting jobs, confirm that your High-Performance Computing (HPC) system has the following software installed:
 
-Apptainer/Singularity: A container platform.
+**Apptainer/Singularity:** A container platform.
 
-Open MPI: The Message Passing Interface for parallel computing. Version 4.1.6 or later is expected.
+**Open MPI:** The Message Passing Interface for parallel computing. Version 4.1.6 or later is expected.
 
-Environment Setup
+### Environment Setup
 You must load the necessary modules to prepare your environment. The specific versions may vary by system.
 
-Bash
 
-# Load containerization module
+
+## Load containerization module
 ```
 module load apptainer  # Or singularity if Apptainer is not available
 ```
-# Load MPI module
+## Load MPI module
 ```
 module load openmpi/gcc/64/4.1.5
 ```
 
-# Load the Slurm module if your system uses it for job submission
+## Load the Slurm module if your system uses it for job submission
 ```
 module load slurm
 ```
-Verification
+### Verification
 Verify the versions of the loaded software and check your environment variables.
 
-Check Open MPI version:
+**Check Open MPI version:**
 
 
 ```
 mpirun --version
 ```
-Check Apptainer/Singularity version:
+**Check Apptainer/Singularity version:**
 
 ```
 
 apptainer --version
 singularity --version
 ```
-Verify Environment Variables: Ensure that your $PATH variable includes the correct paths to the MPI and Apptainer/Singularity binaries. You may need to run the following commands to configure your environment.
+**Verify Environment Variables:** Ensure that your $PATH variable includes the correct paths to the MPI and Apptainer/Singularity binaries. You may need to run the following commands to configure your environment.
 
 
 ```
@@ -61,10 +61,10 @@ Once the environment is configured, you can submit the jobs using the provided s
 ```
 sbatch run_jobs.sh
 ```
-# MiniAMR Application Guide
+## MiniAMR Application Guide
 This document provides instructions for running the MiniAMR application using Singularity/Apptainer and Open MPI.
 
-## 1. Setup
+### 1. Setup
 First, create the necessary directory structure for your results. This command creates a result directory with input and output subdirectories.
 
 
@@ -79,23 +79,23 @@ if ! [ -f miniamr_latest.sif ]; then
   singularity pull library://mhchowdhury/collection/miniamr 
 fi
 ```
-## 2. Running the Application
+### 2. Running the Application
 To run MiniAMR, you'll use the mpirun command in conjunction with singularity run. The output for each run will be redirected to a specific file within the result/output/ directory.
 
 Note: If you are running on an HPC system with a job scheduler like Slurm or PBS, ensure you allocate a large queue and sufficient memory (e.g., 120GB) for the job to complete successfully.
 
-## 3. Execution Commands
-## Run with 16 Processors
+### 3. Execution Commands
+### Run with 16 Processors
 This command executes the MiniAMR application on 16 processors. The output is stored in result/output/miniamr_result16.txt.
 ```
 mpirun  -np 16 singularity run  --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --max_blocks 6000 --num_refine 4 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 2 --npz 2 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result16.txt
 ```
-## Run with 32 Processors
+### Run with 32 Processors
 To run with 32 processors, use this command. The output will be saved to result/output/miniamr_result32.txt.
 ```
 mpirun  -np 32 singularity run  --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --max_blocks 4000 --num_refine 4 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 2 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result32.txt
 ```
-## Run with 64 Processors
+### Run with 64 Processors
 This command runs the application on 64 processors, with the output directed to result/output/miniamr_result64.txt.
 ```
 mpirun -np 64 singularity run --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --num_refine 4 --max_blocks 4000 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 4 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result64.txt
