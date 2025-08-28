@@ -202,17 +202,34 @@ mpirun -n 64 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/m
 
 #### For reproducibility check:
 
-check the output files from the result folder.  
+check the output files from the result folder. 
 
-Comparison of Final Energy Levels of LULESH Application Across Different HPC Systems
-This table presents a performance comparison of the LULESH miniapp, a proxy for hydrodynamics applications, across four different HPC systems (HPC-X, HPC-Y, HPC-Z, and HPC-W). The data shows the Final Energy Level achieved for three different problem sizes, each run with a corresponding number of MPI tasks.
-| Problem Size | 	MPI Tasks|	Iteration Count| 	HPC-X|	HPC-Y|	HPC-Z|	HPC-W|
-|--------------|-------------|-----------------|---------|-------|-------|--------|
-|2.            |	8	     | 45	           | 5.55    |	5.55 |	5.55 | 5.55   |
-|3	           |  27	     |          196	   | 22.2	 | 22.2	 |22.2 	 |   22.2|
-|4	 |64	|434	|63.8	|63.8	|63.8	|63.8|
 
-| Header 1 | Header 2 | Header 3 |
-|----------|----------|----------|
-| Row 1, Col 1 | Row 1, Col 2 | Row 1, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
+**Comparison of miniAMR Applications Run on Different HPC Systems**
+This table presents a comparison of the Number of Blocks at Level 4 for the miniAMR application across four different HPC systems (Jetstream 2, ASC, UAHPC, and Pantarhei ). The data is organized by the number of MPI tasks and the maximum number of blocks allocated for each run.
+
+| MPI Tasks	|Max Blocks	| Jetstream 2 | ASC  | UAHPC |Pantarhei |
+|-----------|-----------|-------------|------|-------|----------|
+|16	        | 6000	    |  216        | 216	 | 216	 | 216      | 
+| 32.       | 	4000	| 352   	  | 352	 | 352	 | 352      | 
+| 64	    | 4000	    | 536	      | 536	 | 536	 | 536.     | 
+
+
+
+**Comparison of Modularity Values of miniVite Applications Across Different HPC Systems**
+This table presents a comparison of the Modularity Values for the miniVite application across four different HPC systems (Jetstream 2, ASC, UAHPC, and Pantarhei ). The data is organized by the number of MPI tasks used in each run.
+
+| MPI	| Jetstream 2 | ASC        | UAHPC.    |Pantarhei  |
+|-------|-------------|------------|-----------|-----------|
+| 8	    | 0.0153565	  | 0.0153565  | 0.0153565 | 0.0153565 | 
+| 32	| 0.0153565	  | 0.0153565  | 0.0153565 | 0.0153565 | 
+| 64	| 0.0153565   | 0.0153565  | 0.0153565 | 0.0153565 | 
+
+**Comparison of Final Energy Levels of LULESH Application Across Different HPC Systems**
+This table presents a performance comparison of the LULESH miniapp, a proxy for hydrodynamics applications, across four different HPC systems (Jetstream 2, ASC, UAHPC, and Pantarhei ). The data shows the Final Energy Level achieved for three different problem sizes, each run with a corresponding number of MPI tasks.
+| Problem Size | 	MPI Tasks|	Iteration Count| Jetstream 2 | ASC  | UAHPC |Pantarhei |
+|--------------|-------------|-----------------|-------------|------|-------|----------|
+|2.            |	8	     | 45	           | 5.55        |5.55  |  5.55 | 5.55     |
+|3	           |  27	     |          196	   | 22.2	     | 22.2	|22.2 	|   22.2   |
+|4	           |64	         |434	           |63.8	     |63.8	|63.8	|63.8.     |
+
