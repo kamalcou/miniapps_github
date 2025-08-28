@@ -207,7 +207,12 @@ check the output files from the result folder.
 Comparison of Final Energy Levels of LULESH Application Across Different HPC Systems
 This table presents a performance comparison of the LULESH miniapp, a proxy for hydrodynamics applications, across four different HPC systems (HPC-X, HPC-Y, HPC-Z, and HPC-W). The data shows the Final Energy Level achieved for three different problem sizes, each run with a corresponding number of MPI tasks.
 | Problem Size | 	MPI Tasks|	Iteration Count| 	HPC-X|	HPC-Y|	HPC-Z|	HPC-W|
-|--------------|-------------|=================|---------|-------|-------|--------|
+|--------------|-------------|-----------------|---------|-------|-------|--------|
 |2.            |	8	     | 45	           | 5.55    |	5.55 |	5.55 | 5.55   |
 |3	           |  27	     |          196	   | 22.2	 | 22.2	 |22.2 	 |   22.2|
 |4	 |64	|434	|63.8	|63.8	|63.8	|63.8|
+
+| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Row 1, Col 1 | Row 1, Col 2 | Row 1, Col 3 |
+| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
