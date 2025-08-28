@@ -61,6 +61,29 @@ Once the environment is configured, you can submit the jobs using the provided s
 ```
 sbatch run_jobs.sh
 ```
+
+## Folder Structure
+
+```
+├── .gitignore
+├── README.md
+├── analyze_minivite_result.sh
+├── create_minivite_input_jobs.sh
+├── run_jobs.sh
+├── write_file.py
+└── write_file.sh
+
+
+/.gitignore:
+--------------------------------------------------------------------------------
+1 | minivite_input/*.*
+2 | minivite_input/
+3 | *.sif
+4 | result/
+5 | *.out
+6 | *.err
+
+```
 #### 1. MiniAMR Application Guide
 This document provides instructions for running the MiniAMR application using Singularity/Apptainer and Open MPI.
 
@@ -176,3 +199,15 @@ mpirun -n 32 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/m
 ```
 mpirun -n 64 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/miniVite/./miniVite -f /opt/result/input/neuron1024.bin > result/output/minivite_result64.txt
 ```
+
+#### For reproducibility check:
+
+check the output files from the result folder.  
+
+Comparison of Final Energy Levels of LULESH Application Across Different HPC Systems
+This table presents a performance comparison of the LULESH miniapp, a proxy for hydrodynamics applications, across four different HPC systems (HPC-X, HPC-Y, HPC-Z, and HPC-W). The data shows the Final Energy Level achieved for three different problem sizes, each run with a corresponding number of MPI tasks.
+| Problem Size | 	MPI Tasks|	Iteration Count| 	HPC-X|	HPC-Y|	HPC-Z|	HPC-W|
+|--------------|-------------|=================|---------|-------|-------|--------|
+|2.            |	8	     | 45	           | 5.55    |	5.55 |	5.55 | 5.55   |
+|3	           |  27	     |          196	   | 22.2	 | 22.2	 |22.2 	 |   22.2|
+|4	 |64	|434	|63.8	|63.8	|63.8	|63.8|
