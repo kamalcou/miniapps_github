@@ -101,9 +101,16 @@ This command runs the application on 64 processors, with the output directed to 
 mpirun -np 64 singularity run --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --num_refine 4 --max_blocks 4000 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 4 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result64.txt
 
 ```
+#### 2. LULESH Application Guide
+##### 1. Setup
+First, create the necessary directory structure for your results. This command creates a result directory with input and output subdirectories.
 
-## for lulesh
-#### 2. LULESH Application
+
+```
+mkdir -p result result/input/ result/output/
+```
+##### 2. LULESH Application
+
 **Pulling the LULESH Image**
 To get the LULESH image, run the following command. The if statement ensures the image is only downloaded if it doesn't already exist.
 ```
@@ -126,9 +133,15 @@ mpirun -n 27 singularity run lulesh_latest.sif /opt/LULESH/./lulesh2.0 -s 3 > re
 ```
 mpirun -n 64 singularity run lulesh_latest.sif /opt/LULESH/./lulesh2.0 -s 4 > result/output/lulesh_result4_64.txt
 ```
+#### 3. miniVite Application Guide
+##### 1. Setup
+First, create the necessary directory structure for your results. This command creates a result directory with input and output subdirectories.
 
-#### 3. miniVite Application
-**Pulling the miniVite Image**
+
+```
+mkdir -p result result/input/ result/output/
+```
+##### 2.Pulling the miniVite Image
 
 To get the miniVite image, run this command.
 ```
