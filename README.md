@@ -53,10 +53,51 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 export OMPI_MCA_plm_rsh_agent=ssh
 export OMP_NUM_THREADS=1
 export TMPDIR=/tmp
+```
 Job Submission
 Once the environment is configured, you can submit the jobs using the provided script.
-```
+
 
 ```
 sbatch run_jobs.sh
+```
+# MiniAMR Application Guide
+This document provides instructions for running the MiniAMR application using Singularity/Apptainer and Open MPI.
+
+## 1. Setup
+First, create the necessary directory structure for your results. This command creates a result directory with input and output subdirectories.
+
+
+```
+mkdir -p result result/input/ result/output/
+```
+
+Next, pull the MiniAMR Singularity image from the cloud. The if statement ensures the image is only downloaded if it doesn't already exist in the current directory.
+```
+## for miniAMR
+if ! [ -f miniamr_latest.sif ]; then
+  singularity pull library://mhchowdhury/collection/miniamr 
+fi
+```
+## 2. Running the Application
+To run MiniAMR, you'll use the mpirun command in conjunction with singularity run. The output for each run will be redirected to a specific file within the result/output/ directory.
+
+Note: If you are running on an HPC system with a job scheduler like Slurm or PBS, ensure you allocate a large queue and sufficient memory (e.g., 120GB) for the job to complete successfully.
+
+## 3. Execution Commands
+## Run with 16 Processors
+This command executes the MiniAMR application on 16 processors. The output is stored in result/output/miniamr_result16.txt.
+```
+mpirun  -np 16 singularity run  --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --max_blocks 6000 --num_refine 4 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 2 --npz 2 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result16.txt
+```
+## Run with 32 Processors
+To run with 32 processors, use this command. The output will be saved to result/output/miniamr_result32.txt.
+```
+mpirun  -np 32 singularity run  --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --max_blocks 4000 --num_refine 4 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 2 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result32.txt
+```
+## Run with 64 Processors
+This command runs the application on 64 processors, with the output directed to result/output/miniamr_result64.txt.
+```
+mpirun -np 64 singularity run --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --num_refine 4 --max_blocks 4000 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 4 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result64.txt
+
 ```
