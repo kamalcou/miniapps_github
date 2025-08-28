@@ -61,7 +61,7 @@ Once the environment is configured, you can submit the jobs using the provided s
 ```
 sbatch run_jobs.sh
 ```
-#### MiniAMR Application Guide
+#### 1. MiniAMR Application Guide
 This document provides instructions for running the MiniAMR application using Singularity/Apptainer and Open MPI.
 
 ##### 1. Setup
@@ -100,4 +100,66 @@ This command runs the application on 64 processors, with the output directed to 
 ```
 mpirun -np 64 singularity run --bind result:/opt/result miniamr_latest.sif  /opt/miniAMR/openmp/miniAMR.x --num_refine 4 --max_blocks 4000 --init_x 1 --init_y 1 --init_z 1 --npx 4 --npy 4 --npz 4 --nx 8 --ny 8 --nz 8 --num_objects 1 --object 2 0 -0.01 -0.01 -0.01 0.0 0.0 0.0 0.0 0.0 0.0 0.0009 0.0009 0.0009 --num_tsteps 200 --comm_vars 2 > result/output/miniamr_result64.txt
 
+```
+
+## for lulesh
+#### 2. LULESH Application
+**Pulling the LULESH Image**
+To get the LULESH image, run the following command. The if statement ensures the image is only downloaded if it doesn't already exist.
+```
+if ! [ -f lulesh_latest.sif ]; then
+  singularity pull library://mhchowdhury/collection/lulesh
+fi
+```
+**Execution Commands** 
+
+Run LULESH with different numbers of processors. The -s flag specifies the cube size.
+- Run with 8 processors (-s 2):
+```
+mpirun -n 8 singularity run lulesh_latest.sif /opt/LULESH/./lulesh2.0 -s 2 > result/output/lulesh_result2_8.txt
+```
+- Run with 27 processors (-s 3):
+```
+mpirun -n 27 singularity run lulesh_latest.sif /opt/LULESH/./lulesh2.0 -s 3 > result/output/lulesh_result3_27.txt
+```
+- Run with 64 processors (-s 4):
+```
+mpirun -n 64 singularity run lulesh_latest.sif /opt/LULESH/./lulesh2.0 -s 4 > result/output/lulesh_result4_64.txt
+```
+
+#### 3. miniVite Application
+**Pulling the miniVite Image**
+
+To get the miniVite image, run this command.
+```
+if ! [ -f minivite_1.1.sif ]; then
+  singularity pull library://mhchowdhury/collection/minivite:1.1
+fi
+```
+**Creating Input Data** 
+
+The miniVite application requires an input file. This script will generate the neuron1024.bin file if it does not exist.
+```
+if ! [ -f result/input/neuron1024.bin ]; then
+  chmod +x create_minivite_input_jobs.sh
+  ./create_minivite_input_jobs.sh
+fi
+```
+**Execution Commands**
+Run miniVite with different numbers of processors.
+
+- Run with 8 processors:
+
+
+```
+mpirun -n 8 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/miniVite/./miniVite -f /opt/result/input/neuron1024.bin > result/output/minivite_result8.txt
+```
+- Run with 32 processors:
+```
+
+mpirun -n 32 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/miniVite/./miniVite -f /opt/result/input/neuron1024.bin > result/output/minivite_result32.txt
+```
+- Run with 64 processors:
+```
+mpirun -n 64 singularity run --bind result:/opt/result  minivite_1.1.sif  /opt/miniVite/./miniVite -f /opt/result/input/neuron1024.bin > result/output/minivite_result64.txt
 ```
