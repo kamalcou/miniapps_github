@@ -1,0 +1,6 @@
+minivite_input/*.*
+minivite_input/
+*.sif
+result/
+*.out
+*.err
